@@ -1,0 +1,10 @@
+# Maven build output
+target/
+
+# IDE fájlok
+.idea/
+*.iml
+
+# OS-specifikus fájlok
+.DS_Store
+Thumbs.db
