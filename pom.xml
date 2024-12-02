@@ -27,7 +27,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Main-Class>org.example.Main</Main-Class> <!-- A belépési pont osztálya -->
+                            <Main-Class>org.example.Main</Main-Class> <!-- Itt a teljes osztálynév -->
                         </manifestEntries>
                     </archive>
                 </configuration>
