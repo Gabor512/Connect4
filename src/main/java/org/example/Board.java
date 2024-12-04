@@ -93,8 +93,10 @@ public final class Board {
      * @return igaz, ha sikerült elhelyezni a bábut, egyébként hamis
      */
     public boolean placePiece(final int column, final String piece) {
-        if (column < 0 || column >= columns) {  // Ellenőrzés, hogy az oszlopindex érvényes-e
-            return false; // Ha érvénytelen oszlopot adunk meg, false-t adunk vissza
+        if (column < 0 || column >= columns) {
+            // Ellenőrzés, hogy az oszlopindex érvényes-e
+            return false;
+            // Ha érvénytelen oszlopot adunk meg, false-t adunk vissza
         }
         for (int rowIndex = rows - 1; rowIndex >= 0; rowIndex--) {
             if (board[rowIndex][column].equals(EMPTY_CELL)) {
@@ -112,7 +114,9 @@ public final class Board {
      * @return igaz, ha győzelem történt, különben hamis
      */
     public boolean checkVictory(final String piece) {
-        return checkHorizontal(piece) || checkVertical(piece) || checkDiagonal(piece);
+        return checkHorizontal(piece)
+                || checkVertical(piece)
+                || checkDiagonal(piece);
     }
 
     private boolean checkHorizontal(final String piece) {

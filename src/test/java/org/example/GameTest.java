@@ -47,14 +47,14 @@ class GameTest {
         assertEquals(Game.YELLOW, loadedGame.getBoard().getBoard()[5][0]);
     }
 
-//    @Test
-//    void testInvalidPlayerMove() {
-//        Game game = new Game(6, 7);
-//        game.switchPlayer();
-//        assertEquals(Game.RED, game.getCurrentPlayer());
-//        int invalidMove = -1;
-//        assertEquals(invalidMove, game.getPlayerMove()); // Érvénytelen bemenet
-//    }
+    @Test
+    void testInvalidPlayerMove() {
+        Game game = new Game(6, 7);
+        game.switchPlayer();
+        assertEquals(Game.RED, game.getCurrentPlayer());
+        int invalidMove = -1;
+        assertEquals(invalidMove, game.getPlayerMove()); // Érvénytelen bemenet
+    }
 
     @Test
     void testSwitchPlayerMultipleTimes() {
