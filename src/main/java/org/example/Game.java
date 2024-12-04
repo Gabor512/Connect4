@@ -14,12 +14,16 @@ public final class Game {
     public static final String YELLOW = "Z";
     public static final String RED = "O";
 
-    public Game(final int rows, final int columns, DatabaseHelper databaseHelper) {
+    public Game(final int rows, final int columns, DatabaseHelper databaseHelper, Scanner scanner) {
         this.board = new Board(rows, columns);
         this.currentPlayer = YELLOW;
         this.gameOver = false;
-        this.scanner = new Scanner(System.in);
+        this.scanner = scanner;
         this.databaseHelper = databaseHelper;
+    }
+
+    public Game(final int rows, final int columns, DatabaseHelper databaseHelper) {
+        this(rows, columns, databaseHelper, new Scanner(System.in));
     }
 
     public void startGame() throws IOException {
@@ -38,7 +42,7 @@ public final class Game {
             }
 
             if (!board.placePiece(column, currentPlayer)) {
-                System.out.println("Ez az oszlop tele van. Válassz másikat.");
+                System.out.println("Érvénytelen lépés. Válassz másikat.");
                 continue;
             }
 
@@ -46,7 +50,9 @@ public final class Game {
                 board.printBoard();
                 System.out.println("Játékos " + currentPlayer + " nyert!");
                 gameOver = true;
-                databaseHelper.addWin(playerName);  // Hozzáadjuk a győztest az adatbázishoz
+                if (currentPlayer.equals(YELLOW)) {
+                    databaseHelper.addWin(playerName); // Csak az emberi játékos győzelme kerül mentésre
+                }
             } else {
                 switchPlayer();
             }
@@ -55,14 +61,18 @@ public final class Game {
         board.saveToFile("game_state.txt");
     }
 
-    private int getPlayerMove() {
+    int getPlayerMove() {
         if (currentPlayer.equals(YELLOW)) {
             System.out.print("Válassz egy oszlopot (0-" + (board.getColumns() - 1) + "): ");
             try {
-                return scanner.nextInt();
+                int column = scanner.nextInt();
+                if (column < 0 || column >= board.getColumns()) {
+                    return -1; // Ha az oszlop kívül esik a tartományon, -1-et adunk vissza
+                }
+                return column;
             } catch (Exception e) {
-                scanner.nextLine();
-                return -1;
+                scanner.nextLine(); // Rossz bemenetet ürítjük
+                return -1; // Ha a bemenet nem szám, -1-et adunk vissza
             }
         } else {
             Random random = new Random();
@@ -74,5 +84,21 @@ public final class Game {
 
     public void switchPlayer() {
         currentPlayer = currentPlayer.equals(YELLOW) ? RED : YELLOW;
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 }
